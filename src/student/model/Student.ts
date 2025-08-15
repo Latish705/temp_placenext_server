@@ -1,13 +1,14 @@
 import { CourseType } from "../../college/models/CourseType";
 import { User } from "../../model/User";
+import { AuthStrategy } from "../../strategies/AuthStrategy";
 
-interface IStudent {
+export class Student extends User {
   firstname: string;
   lastname: string;
   phoneNumber: string;
   address: string;
   dob: Date;
-  CourseType: CourseType;
+  courseType: CourseType;
   year: number;
   isSystemVerified: boolean;
   isAdminVerified: boolean;
@@ -33,39 +34,7 @@ interface IStudent {
   photo_with_signature: string;
   gap_certificate: string;
   handicap_certificate: string;
-}
-export class Student extends User implements IStudent {
-  firstname: string;
-  lastname: string;
-  phoneNumber: string;
-  address: string;
-  dob: Date;
-  CourseType: CourseType;
-  year: number;
-  isSystemVerified: boolean;
-  isAdminVerified: boolean;
-  admission_year: Date;
-  sem1_grade: number;
-  sem2_grade: number;
-  sem3_grade: number;
-  sem4_grade: number;
-  sem5_grade: number;
-  sem6_grade: number;
-  sem7_grade: number;
-  sem8_grade: number;
-  cet: number;
-  jee: number;
-  diploma: number;
-  hsc: number;
-  ssc: number;
-  hsc_board_name: string;
-  ssc_board_name: string;
-  diploma_board_name: string;
-  adhar_number: number;
-  pan: number;
-  photo_with_signature: string;
-  gap_certificate: string;
-  handicap_certificate: string;
+  auth: AuthStrategy;
 
   constructor(
     firebaseId: string,
@@ -76,7 +45,7 @@ export class Student extends User implements IStudent {
     phoneNumber: string,
     address: string,
     dob: Date,
-    CourseType: CourseType,
+    courseType: CourseType,
     year: number,
     isSystemVerified: boolean,
     isAdminVerified: boolean,
@@ -101,7 +70,8 @@ export class Student extends User implements IStudent {
     pan: number,
     photo_with_signature: string,
     gap_certificate: string,
-    handicap_certificate: string
+    handicap_certificate: string,
+    auth: AuthStrategy
   ) {
     super(firebaseId, email, accessToken);
     this.firstname = firstname;
@@ -109,7 +79,7 @@ export class Student extends User implements IStudent {
     this.phoneNumber = phoneNumber;
     this.address = address;
     this.dob = dob;
-    this.CourseType = CourseType;
+    this.courseType = courseType;
     this.year = year;
     this.isSystemVerified = isSystemVerified;
     this.isAdminVerified = isAdminVerified;
@@ -135,6 +105,19 @@ export class Student extends User implements IStudent {
     this.photo_with_signature = photo_with_signature;
     this.gap_certificate = gap_certificate;
     this.handicap_certificate = handicap_certificate;
+    this.auth = auth;
+  }
+
+  signin() {
+    this.auth.signin(this);
+  }
+
+  signup() {
+    this.auth.signup(this);
+  }
+
+  signout() {
+    this.auth.signout(this);
   }
 
   getFirstname(): string {
@@ -173,10 +156,10 @@ export class Student extends User implements IStudent {
   }
 
   getCourseType(): CourseType {
-    return this.CourseType;
+    return this.courseType;
   }
   setCourseType(value: CourseType): void {
-    this.CourseType = value;
+    this.courseType = value;
   }
 
   getYear(): number {

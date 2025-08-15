@@ -4,6 +4,12 @@
 //   accessToken: string;
 // }
 
+export interface IUser {
+  firebaseId: string;
+  email: string;
+  accessToken: string;
+}
+
 export class User {
   private firebaseId: string;
   private email: string;
