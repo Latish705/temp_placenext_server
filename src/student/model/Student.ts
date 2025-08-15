@@ -1,9 +1,6 @@
 import { User } from "../../model/User";
 
-class Student implements User {
-  firebaseId: string;
-  email: string;
-  accessToken: string;
+export class Student extends User {
   firstName: string;
   lastName: string;
   phoneNumber: string;
@@ -44,9 +41,7 @@ class Student implements User {
     parentState: string,
     parentZipCode: string
   ) {
-    this.firebaseId = firebaseId;
-    this.email = email;
-    this.accessToken = accessToken;
+    super(firebaseId, email, accessToken);
     this.firstName = firstName;
     this.lastName = lastName;
     this.phoneNumber = phoneNumber;
@@ -64,27 +59,6 @@ class Student implements User {
     this.parentCity = parentCity;
     this.parentState = parentState;
     this.parentZipCode = parentZipCode;
-  }
-
-  getFirebaseId(): string {
-    return this.firebaseId;
-  }
-  setFirebaseId(value: string): void {
-    this.firebaseId = value;
-  }
-
-  getEmail(): string {
-    return this.email;
-  }
-  setEmail(value: string): void {
-    this.email = value;
-  }
-
-  getAccessToken(): string {
-    return this.accessToken;
-  }
-  setAccessToken(value: string): void {
-    this.accessToken = value;
   }
 
   getFirstName(): string {

@@ -1,9 +1,7 @@
 import { User } from "../../model/User";
+import { ICollege } from "./College";
 
-class Faculty implements User {
-  firebaseId: string;
-  email: string;
-  accessToken: string;
+class Faculty extends User {
   firstName: string;
   lastName: string;
   phoneNumber: string;
@@ -18,33 +16,13 @@ class Faculty implements User {
     phoneNumber: string,
     collegeId: ICollege["_id"]
   ) {
-    this.firebaseId = firebaseId;
-    this.email = email;
-    this.accessToken = accessToken;
+    super(firebaseId, email, accessToken);
     this.firstName = firstName;
     this.lastName = lastName;
     this.phoneNumber = phoneNumber;
     this.collegeId = collegeId;
   }
 
-  getFirebaseId(): string {
-    return this.firebaseId;
-  }
-  setFirebaseId(value: string): void {
-    this.firebaseId = value;
-  }
-  getEmail(): string {
-    return this.email;
-  }
-  setEmail(value: string): void {
-    this.email = value;
-  }
-  getAccessToken(): string {
-    return this.accessToken;
-  }
-  setAccessToken(value: string): void {
-    this.accessToken = value;
-  }
   getFirstName(): string {
     return this.firstName;
   }
