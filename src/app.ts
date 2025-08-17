@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
-import studentRouter from "./student/routes/studentRoutes";
+import authRouter from "./api/auth/auth.routes";
+import organisationRouter from "./api/organisation/organisation.routes";
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.use("/student", studentRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/organisation", organisationRouter);
 
 export default app;
