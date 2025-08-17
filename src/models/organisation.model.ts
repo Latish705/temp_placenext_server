@@ -2,7 +2,7 @@ import mongoose, { model, Schema } from "mongoose";
 
 import { OrganisationType } from "./enums";
 
-export interface IOranisation extends Document {
+export interface IOrganisation extends Document {
   name: string;
   type: OrganisationType;
   website: string;
@@ -10,7 +10,7 @@ export interface IOranisation extends Document {
   createdBy: Schema.Types.ObjectId;
 }
 
-const organisationSchema = new Schema<IOranisation>({
+const organisationSchema = new Schema<IOrganisation>({
   name: { type: String, required: true },
   type: { type: String, enum: Object.values(OrganisationType), required: true },
   website: { type: String, required: true },
@@ -18,7 +18,7 @@ const organisationSchema = new Schema<IOranisation>({
   createdBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
 });
 
-const OrganisationModel = model<IOranisation>(
+const OrganisationModel = model<IOrganisation>(
   "Organisation",
   organisationSchema
 );

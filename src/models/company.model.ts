@@ -1,7 +1,7 @@
-import OrganisationModel, { IOranisation } from "./organisation.model";
+import OrganisationModel, { IOrganisation } from "./organisation.model";
 import mongoose, { Schema, model, Document } from "mongoose";
 
-export interface ICompany extends IOranisation {
+export interface ICompany extends IOrganisation {
   industry: string;
   numberOfEmployees: number;
 }

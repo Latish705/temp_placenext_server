@@ -1,21 +1,20 @@
-import { Model } from "mongoose";
-import { IOranisation } from "../../models/organisation.model";
+// src/patterns/factory/organisation.factory.ts
+import CollegeModel, { ICollege } from "../../models/college.model";
 import CompanyModel, { ICompany } from "../../models/company.model";
-
 import { OrganisationType } from "../../models/enums";
 
 export class OrganisationFactory {
-  constructor(private companyModel: Model<ICompany>) {}
-
-  async create(
+  static async create(
     type: OrganisationType,
-    params: Partial<IOranisation>
-  ): Promise<IOranisation> {
+    params: any
+  ): Promise<ICollege | ICompany> {
     switch (type) {
+      case OrganisationType.COLLEGE:
+        return CollegeModel.create(params);
       case OrganisationType.COMPANY:
-        return this.companyModel.create(params);
+        return CompanyModel.create(params);
       default:
-        throw new Error("Invalid organisation type");
+        throw new Error(`Invalid organisation type: ${type}`);
     }
   }
 }

@@ -20,8 +20,7 @@ export const createOrganisation = async (
       return res.status(400).json({ message: "Invalid organisation type" });
     }
 
-    const factory = new OrganisationFactory(CompanyModel);
-    const organisation = await factory.create(type, {
+    const organisation = await OrganisationFactory.create(type, {
       ...orgData,
       createdBy: userId,
     });

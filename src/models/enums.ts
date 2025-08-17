@@ -17,3 +17,9 @@ export enum UserRole {
   EMPLOYEE = "EMPLOYEE",
   ADMIN = "ADMIN",
 }
+
+export enum JobStatus {
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+}
