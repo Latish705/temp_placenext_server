@@ -1,35 +1,40 @@
+
 <div align="center">
-<img src="https://path-to-your-logo.png" alt="PlaceNext Logo" width="150"/>
-<h1>PlaceNext: University Placement Platform (Backend)</h1>
-<p>
-<strong>The official backend server for PlaceNext, a modern, scalable platform connecting students, colleges, and companies for placement opportunities.</strong>
-</p>
-<p>
-<a href="#-features">Features</a> •
-<a href="#-architecture-overview">Architecture</a> •
-<a href="#-tech-stack">Tech Stack</a> •
-<a href="#-getting-started">Getting Started</a> •
-<a href="#-api-documentation">API</a> •
-<a href="#-how-to-contribute">Contribute</a>
-</p>
+  <img src="https://path-to-your-logo.png" alt="PlaceNext Logo" width="150"/>
+  <h1>PlaceNext: University Placement Platform (Backend)</h1>
+  <p><strong>The official backend server for PlaceNext, a modern, scalable platform connecting students, colleges, and companies for placement opportunities.</strong></p>
+  <p>
+    <a href="#-features">Features</a> •
+    <a href="#-architecture-overview">Architecture</a> •
+    <a href="#-tech-stack">Tech Stack</a> •
+    <a href="#-getting-started">Getting Started</a> •
+    <a href="#-api-documentation">API</a> •
+    <a href="#-how-to-contribute">Contribute</a>
+  </p>
 </div>
 
-PlaceNext is an event-driven, multi-tenant application built with a focus on clean architecture and modern development practices. This repository contains the complete source code for the backend services that power the platform.
+---
 
-✨ Features
-Role-Based Access Control: Distinct user roles for Students, Faculty, and Company Employees, each with specific permissions.
+PlaceNext is an **event-driven, multi-tenant application** built with a focus on clean architecture and modern development practices.  
+This repository contains the complete source code for the backend services that power the platform.
 
-Job Posting & Application: Companies can create detailed job postings with specific criteria, which colleges can then approve and pass on to students.
+---
 
-Multi-Round Tracking: Manages the entire interview process, from initial application to clearing multiple rounds.
+## ✨ Features
 
-Event-Driven Notifications: A decoupled notification system that informs users of important events, such as a new job posting or a change in application status.
+- **Role-Based Access Control**: Distinct user roles for Students, Faculty, and Company Employees, each with specific permissions.  
+- **Job Posting & Application**: Companies create job postings with criteria, colleges approve them, and students apply.  
+- **Multi-Round Tracking**: Manage the entire interview process across multiple rounds.  
+- **Event-Driven Notifications**: Decoupled notification system to inform users of important events (e.g., new job postings, status changes).  
 
-🏛️ Architecture Overview
-The PlaceNext backend is a Layered, Event-Driven Monolith, designed to be scalable and easy to maintain. This architecture allows for clear separation of concerns and can be broken down into microservices in the future if needed.
+---
 
-Code snippet
+## 🏛️ Architecture Overview
 
+The PlaceNext backend is a **Layered, Event-Driven Monolith**, designed for scalability and maintainability. It can be evolved into microservices if required.
+
+### Architecture Diagram
+```mermaid
 graph TD
     subgraph "Request Layer"
         A[Client App] -->|HTTPS Request| B(Express Router);
@@ -56,142 +61,137 @@ graph TD
     end
 
     E-.->P1 & P2 & P3 & P4;
+````
 
-    style "Request Layer" fill:#f9f9f9,stroke:#333,stroke-width:2px
-    style "Application Layer" fill:#e6f3ff,stroke:#0066cc
-    style "Data & Events" fill:#d5f5e3,stroke:#27ae60
-Key Architectural Concepts
-Layered Design:
+### Key Architectural Concepts
 
-Routing: Directs incoming requests to the appropriate controller.
+* **Layered Design**
 
-Middleware: Handles cross-cutting concerns like authentication (Firebase Auth), authorization (role checks), and request validation.
+  * **Routing**: Directs requests to controllers.
+  * **Middleware**: Handles authentication (Firebase), authorization, and validation.
+  * **Controllers**: Thin orchestration layer with no business logic.
+  * **Models**: Mongoose schemas as the single source of truth.
+* **Design Patterns**
 
-Controllers: Orchestrate the workflow for a request. They parse the input, call the necessary business logic, and format the final HTTP response. They are kept "thin" and do not contain business logic themselves.
+  * **Observer Pattern**: Event-based communication between services.
+  * **Strategy Pattern**: Role-specific authentication (StudentAuth, FacultyAuth).
+  * **Factory Pattern**: Abstract object creation (e.g., OrganisationFactory).
+  * **Proxy Pattern**: Permission checks (e.g., JobApprovalProxy).
 
-Models: The Mongoose schemas are the single source of truth for our data structures and handle all interactions with the MongoDB database.
+---
 
-Design Patterns: We use design patterns extensively to create a decoupled and maintainable system.
+## 🛠️ Tech Stack
 
-Observer Pattern: This is the core of our communication system. When a job is created or approved, an event is emitted. Separate, decoupled services (like NotificationService or CollegeService) listen for these events and react accordingly. This prevents a "spiderweb" of dependencies.
+* **Backend:** Node.js, Express.js
+* **Language:** TypeScript
+* **Database:** MongoDB with Mongoose ODM
+* **Authentication:** Firebase Admin SDK
+* **Environment Management:** dotenv
 
-Strategy Pattern: Used to handle different logic for different user roles, especially in authentication. The StudentAuth and FacultyAuth strategies allow for unique signup and signin processes without cluttering the controller with if/else statements.
+---
 
-Factory Pattern: Used to abstract the creation of complex objects. For instance, an OrganisationFactory can create either a College or Company document from a single endpoint, hiding the instantiation logic from the controller.
+## 🚀 Getting Started
 
-Proxy Pattern: Used to add a layer of control over actions. For job approvals, a JobApprovalProxy first checks if the user has the required permissions before delegating the actual approval task to the core logic.
+### Prerequisites
 
-🛠️ Tech Stack
-Backend: Node.js, Express.js
+* Node.js **v18+**
+* Running MongoDB instance (local or cloud)
+* Google Firebase project with a service account key (`.json` file)
 
-Language: TypeScript
+### Local Setup
 
-Database: MongoDB with Mongoose ODM
+1. **Clone the repository**
 
-Authentication: Firebase Admin SDK for token verification
+   ```bash
+   git clone https://github.com/[YOUR-USERNAME]/placenext-server.git
+   cd placenext-server
+   ```
 
-Environment Management: dotenv
+2. **Install dependencies**
 
-🚀 Getting Started
-Follow these instructions to get a copy of the project up and running on your local machine for development.
+   ```bash
+   npm install
+   ```
 
-Prerequisites
-Node.js (v18 or newer recommended)
+3. **Configure Environment Variables**
+   Create a `.env` file in the root directory:
 
-A running MongoDB instance (local or cloud)
+   ```env
+   # Server configuration
+   PORT=8000
 
-A Google Firebase project with a generated service account key (.json file).
+   # MongoDB connection string
+   MONGO_URI=mongodb://127.0.0.1:27017/placenext
 
-Local Setup
-Clone the repository:
+   # Firebase Admin SDK credentials (as a single line string)
+   FIREBASE_CRED={"type":"service_account","project_id":"your-project-id","private_key_id":"...","private_key":"-----BEGIN PRIVATE KEY-----\\n...\\n-----END PRIVATE KEY-----\\n","client_email":"...","client_id":"...","auth_uri":"...","token_uri":"...","auth_provider_x509_cert_url":"...","client_x509_cert_url":"..."}
+   ```
 
-Bash
+4. **Compile and Run**
+   Add these scripts to `package.json`:
 
-git clone https://github.com/[YOUR-USERNAME]/placenext-server.git
-cd placenext-server
-Install dependencies:
+   ```json
+   "scripts": {
+     "build": "tsc",
+     "start": "node dist/index.js",
+     "dev": "tsc -w & nodemon dist/index.js"
+   }
+   ```
 
-Bash
+   Build and start:
 
-npm install
-Configure Environment Variables:
+   ```bash
+   npm run build
+   npm start
+   ```
 
-Create a .env file in the project root.
+   The server will run at [http://localhost:8000](http://localhost:8000).
 
-Add the necessary configuration variables. Your FIREBASE_CRED must be the entire content of your Firebase service account JSON file, formatted as a single-line string.
+---
 
-.env example:
+## 📁 Project Structure
 
-# Server configuration
-PORT=8000
-
-# MongoDB connection string
-MONGO_URI=mongodb://127.0.0.1:27017/placenext
-
-# Firebase Admin SDK credentials (as a single line string)
-FIREBASE_CRED={"type":"service_account","project_id":"your-project-id","private_key_id":"...","private_key":"-----BEGIN PRIVATE KEY-----\\n...\\n-----END PRIVATE KEY-----\\n","client_email":"...","client_id":"...","auth_uri":"...","token_uri":"...","auth_provider_x509_cert_url":"...","client_x509_cert_url":"..."}
-Compile TypeScript and Run:
-
-This project uses tsc to compile TypeScript to JavaScript.
-
-Add the following scripts to your package.json:
-
-JSON
-
-"scripts": {
-  "build": "tsc",
-  "start": "node dist/index.js",
-  "dev": "tsc -w & nodemon dist/index.js"
-},
-Run the build command:
-
-Bash
-
-npm run build
-Start the server:
-
-Bash
-
-npm start
-The server should now be running at http://localhost:8000.
-
-📁 Project Structure
+```
 /src
 |-- /api            # Feature-based folders with routes and controllers
 |-- /config         # Database (db.ts) and Firebase (firebase.ts) connections
 |-- /middleware     # Authentication, authorization, and error handling
 |-- /models         # Mongoose schemas and TypeScript interfaces
-|-- /patterns       # Implementations of Factory, Proxy, Strategy patterns
+|-- /patterns       # Factory, Proxy, Strategy pattern implementations
 |-- /services       # Observer services (NotificationService, CollegeService)
-|-- /events         # The central event emitter for the Observer pattern
+|-- /events         # Central event emitter for Observer pattern
 |-- app.ts          # Express app setup and global middleware
 |-- index.ts        # Application entry point
-🤝 How to Contribute
-We are excited to welcome contributors! Please follow these guidelines to ensure a smooth process.
+```
 
-Contribution Workflow
-Fork the repository and clone it locally.
+---
 
-Create an issue on GitHub describing the feature or bug you want to work on.
+## 🤝 How to Contribute
 
-Create a new branch from main for your work (git checkout -b feature/my-new-feature).
+### Workflow
 
-Make your changes. Please adhere to the architectural principles and coding style.
+1. Fork and clone the repository.
+2. Create an issue describing your feature or bug fix.
+3. Create a branch:
 
-Write tests for any new functionality.
+   ```bash
+   git checkout -b feature/my-new-feature
+   ```
+4. Make changes following coding standards.
+5. Write tests and ensure they pass.
+6. Push and create a Pull Request linked to your issue.
 
-Ensure all tests pass.
+### Coding Standards
 
-Push your branch to your fork and create a Pull Request back to the main repository. Link the PR to the issue you created.
+* **TypeScript only** with strict typing (avoid `any`).
+* **Follow layered architecture** (no business logic in controllers).
+* **Conventional commit messages** (e.g., `feat: Add job application endpoint`).
+* **Use event emitter for communication** instead of direct dependencies.
 
-Coding Standards
-TypeScript: All code must be in TypeScript with strict typing. Avoid any whenever possible.
+---
 
-Architecture: Respect the existing layered architecture. Business logic should be placed in services or pattern implementations, not directly in controllers.
+## 📝 License
 
-Commit Messages: Use conventional commit messages (e.g., feat: Add job application endpoint, fix: Correct notification payload).
+This project is licensed under the [MIT License](LICENSE).
 
-Decoupling: Use the event emitter to communicate between different domains (e.g., jobs and notifications) rather than creating direct dependencies.
 
-📝 License
-This project is licensed under the MIT License. See the LICENSE file for full details.
