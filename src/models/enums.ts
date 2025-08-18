@@ -23,3 +23,11 @@ export enum JobStatus {
   APPROVED = "APPROVED",
   REJECTED = "REJECTED",
 }
+
+export enum ApplicationStatus {
+  APPLIED = "APPLIED",
+  SHORTLISTED = "SHORTLISTED",
+  ROUND_CLEARED = "ROUND_CLEARED",
+  REJECTED = "REJECTED",
+  HIRED = "HIRED",
+}

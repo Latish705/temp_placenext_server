@@ -4,33 +4,42 @@ import UserModel from "../../models/user.model";
 import StudentModel from "../../models/student.model";
 import { UserRole } from "../../models/enums";
 
-export const signup = async (
+export const studentSignup = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    const { role } = req.body;
-    //@ts-ignore
-    const firebaseUser = req.user;
+    // @ts-ignore
+    const user = req.user;
+    const { firebaseId, email } = user;
 
-    const signupData = {
-      ...req.body,
-      firebaseId: firebaseUser.uid,
-      email: firebaseUser.email,
-    };
+    const dbUser = await StudentModel.find({ firebaseId: firebaseId });
 
-    if (role == UserRole.STUDENT) {
-      const strategy = new StudentAuthStrategy(UserModel, StudentModel);
-      const student = await strategy.signup(signupData);
-      return res.status(201).json(student);
+    if (!dbUser) {
+      return res.status(200).json({
+        success: true,
+        message: "User already exists",
+        isFirstSignin: true,
+      });
     } else {
-      // Handle other roles if needed
-      const user = await UserModel.create(signupData);
-      return res.status(201).json(user);
+      return res.status(200).json({
+        success: true,
+        message: "User already exists",
+        isFirstSignin: false,
+      });
     }
   } catch (error: any) {
     console.log(error.message);
     res.status(500).json({ message: error.message });
   }
+};
+
+export const studentSignin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
+  try {
+  } catch (error) {}
 };
