@@ -41,5 +41,36 @@ export const studentSignin = async (
   next: NextFunction
 ): Promise<any> => {
   try {
-  } catch (error) {}
+    //@ts-ignore
+    const user = req.user;
+
+    const dbStudent = await StudentModel.findOne({ firebaseId: user.uid });
+
+    if (!dbStudent) {
+      return res.status(200).json({
+        success: true,
+        message: "User does not already exists",
+        isFirstSignin: true,
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        message: "User already exists",
+        isFirstSignin: false,
+      });
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const studentRegistration = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  try {
+    //@ts-ignore
+    const user = req.user;
+  } catch (error: any) {}
 };
