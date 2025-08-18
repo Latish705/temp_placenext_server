@@ -1,9 +1,10 @@
 import { Router } from "express";
 
-import { signup } from "./auth.controller";
+import { studentSignup } from "./auth.controller";
+import { verifyToken } from "../../middleware/verifyToken";
 
 const authRouter = Router();
 
-authRouter.post("/signup", signup);
+authRouter.post("/student_signup", verifyToken, studentSignup);
 
 export default authRouter;
