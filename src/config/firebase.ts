@@ -11,7 +11,7 @@ if (!FIREBASE_CRED) {
   process.exit(1);
 }
 
-console.log("FIREBASE_CRED:", FIREBASE_CRED);
+// console.log("FIREBASE_CRED:", FIREBASE_CRED);
 
 admin.initializeApp({
   credential: admin.credential.cert(FIREBASE_CRED),

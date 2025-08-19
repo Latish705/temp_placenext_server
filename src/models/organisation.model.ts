@@ -3,6 +3,7 @@ import mongoose, { model, Schema } from "mongoose";
 import { OrganisationType } from "./enums";
 
 export interface IOrganisation extends Document {
+  _id: Schema.Types.ObjectId;
   name: string;
   type: OrganisationType;
   website: string;
